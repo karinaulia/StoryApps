@@ -12,6 +12,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import com.bangkit.storyapps.R
 import com.bangkit.storyapps.data.ResultState
+import com.bangkit.storyapps.data.pref.UserModel
 import com.bangkit.storyapps.databinding.ActivityLoginBinding
 import com.bangkit.storyapps.view.ViewModelFactory
 import com.bangkit.storyapps.view.main.MainActivity
@@ -45,6 +46,7 @@ class LoginActivity : AppCompatActivity() {
                     }
                     is ResultState.Success -> {
                         showLoading(false)
+                        viewModel.saveSession(UserModel(email, result.data.loginResult?.token.toString(), true))
                         AlertDialog.Builder(this).apply {
                             setTitle("Yeah!")
                             setMessage("Anda berhasil login, mulailah bercerita hari ini!")

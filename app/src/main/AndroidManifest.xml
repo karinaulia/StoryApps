@@ -15,6 +15,12 @@
         android:theme="@style/Theme.StoryApps"
         tools:targetApi="31">
         <activity
+            android:name=".view.detail_story.DetailStoryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.story.StoryActivity"
+            android:exported="false" />
+        <activity
             android:name=".view.login.LoginActivity"
             android:exported="false" />
         <activity

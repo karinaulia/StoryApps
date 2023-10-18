@@ -1,5 +1,6 @@
 package com.bangkit.storyapps.data
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import com.bangkit.storyapps.data.api.ApiService
 import com.bangkit.storyapps.data.pref.UserModel
@@ -22,6 +23,18 @@ class UserRepository private constructor(
 
     suspend fun logout() {
         userPreference.logout()
+    }
+
+    fun sendStories() : LiveData<ResultState<List<ListStoryItem>>> = liveData {
+        emit(ResultState.Loading)
+        try {
+            val successResponse = apiService.getStories()
+            emit(ResultState.Success(successResponse.listStory))
+        } catch (e: HttpException) {
+            val errorBody = e.response()?.errorBody()?.string()
+            val errorResponse = Gson().fromJson(errorBody, RegisterResponse::class.java)
+            emit(ResultState.Error(errorResponse.message))
+        }
     }
 
     fun sendRegister(name: String, email: String, password: String) = liveData {

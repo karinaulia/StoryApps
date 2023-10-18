@@ -8,6 +8,7 @@ import com.bangkit.storyapps.di.Injection
 import com.bangkit.storyapps.view.login.LoginViewModel
 import com.bangkit.storyapps.view.main.MainViewModel
 import com.bangkit.storyapps.view.signup.SignupViewModel
+import com.bangkit.storyapps.view.welcome.WelcomeViewModel
 
 class ViewModelFactory(private val repository: UserRepository) : ViewModelProvider.NewInstanceFactory() {
 
@@ -22,6 +23,9 @@ class ViewModelFactory(private val repository: UserRepository) : ViewModelProvid
             }
             modelClass.isAssignableFrom(SignupViewModel::class.java) -> {
                 SignupViewModel(repository) as T
+            }
+            modelClass.isAssignableFrom(WelcomeViewModel::class.java) -> {
+                WelcomeViewModel(repository) as T
             }
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }
