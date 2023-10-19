@@ -10,6 +10,13 @@ import com.bangkit.storyapps.databinding.UserStoryBinding
 import com.bumptech.glide.Glide
 
 class StoryAdapter : ListAdapter<ListStoryItem, StoryAdapter.MyViewHolder>(DIFF_CALLBACK) {
+
+    private var onItemClickListener: ((ListStoryItem) -> Unit)? = null
+
+    fun setOnItemListener(listener: (ListStoryItem) -> Unit) {
+        onItemClickListener = listener
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val binding = UserStoryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return MyViewHolder(binding)
@@ -18,6 +25,9 @@ class StoryAdapter : ListAdapter<ListStoryItem, StoryAdapter.MyViewHolder>(DIFF_
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val items = getItem(position)
         holder.bind(items)
+        holder.itemView.setOnClickListener {
+            onItemClickListener?.invoke(items)
+        }
     }
 
     class MyViewHolder(private val binding: UserStoryBinding) : RecyclerView.ViewHolder(binding.root) {

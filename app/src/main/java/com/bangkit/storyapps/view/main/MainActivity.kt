@@ -15,6 +15,7 @@ import com.bangkit.storyapps.data.ResultState
 import com.bangkit.storyapps.databinding.ActivityMainBinding
 import com.bangkit.storyapps.view.StoryAdapter
 import com.bangkit.storyapps.view.ViewModelFactory
+import com.bangkit.storyapps.view.detail_story.DetailStoryActivity
 
 class MainActivity : AppCompatActivity() {
     private val viewModel by viewModels<MainViewModel> {
@@ -71,6 +72,13 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupAction() {
         viewModel.getSession()
+
+        adapter.setOnItemListener { story ->
+            val intent = Intent(this, DetailStoryActivity::class.java)
+            intent.putExtra(DetailStoryActivity.data, story)
+            startActivity(intent)
+        }
+
         viewModel.getStories().observe(this) { story ->
             when(story) {
                 is ResultState.Loading -> {
